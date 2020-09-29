@@ -1,0 +1,29 @@
+String s = "Red";
+Color c = new Color();
+c.name = s;
+c.g = 255;
+Object[] a = new Object[2]; a[0] = s;
+a[1] = c;
+/* punto A*/
+
+A questo punto lo heap contiene la classe Color, la classe Object e la classe String.
+Essendo Object un array, la situazione è tipo la seguente:
+   ┌───────────────────┐
+   │         2         │ -- lunghezza dell array
+   ├───────────────────┤
+   │         s         │ -- a[0]
+   ├───────────────────┤
+   │         c         │ -- a[1]
+   └───────────────────┘
+
+------------------------------------------------------------------------------------------------------------------------
+
+Object[] b = a;
+b[1] = new Color[2]; 9 b = (Color[])a[1];
+b[0] = c;
+b[1] = b[0];
+/* punto B */
+
+In questo caso stiamo allocando dentro l oggetto Object, l oggetto Color. Essendo gli array degli oggetti, vengono allocati
+nello Heap. Di fatto stiamo mettendo dentro l oggetto "b" il riferimento all oggetto Color che risiede separatamente nello Heap.
+I valori assegnati, rimangono all interno della variabile, quindi all interno dello Heap.
