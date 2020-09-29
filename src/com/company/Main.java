@@ -6,22 +6,32 @@ public class Main {
 
     public static void main(String[] args) {
 	    MultiSet a = new MultiSet();
-        int[] input= {1,5,9,9,4,7,8,8,8,11};
-        System.out.println("Input: "+ Arrays.toString(input));
+	    MultiSet b = new MultiSet();
+        int[] input_a= {1,2,3};
+        int[] input_b= {2,3,6,7};
 
-        for (int i = 0; i < input.length; i++) {
-            a.add(input[i]);
+        for (int i = 0; i < input_a.length; i++) {
+            a.add(input_a[i]);
+        }
+        for (int i = 0; i < input_b.length; i++) {
+            b.add(input_b[i]);
         }
 
-        System.out.println("8 compare: "+a.getCount(8)+" volte");
+        MultiSet unione=a.unito(b);
+        MultiSet intersezione=a.intersecato(b);
 
-        System.out.println("Aggiungo 3 4 volte");
-        a.add(3,4);
+        System.out.print("Unione: ");
+        printSet(unione);
 
-        System.out.println("Rimuovo il 3 4 volte");
-        a.remove(3,4);
+        System.out.print("Intersezione: ");
+        printSet(intersezione);
 
-        System.out.println("La lunghezza del MultiSet è di: "+ a.size());
+    }
 
+    private static void printSet(MultiSet a){
+        for (int i = 0; i < a.size(); i++) {
+            System.out.print(a.get(i));
+        }
+        System.out.println();
     }
 }

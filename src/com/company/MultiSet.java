@@ -1,13 +1,14 @@
 package com.company;
 
-import java.util.Arrays;
-
-public class MultiSet implements IntMultiSet {
+public class MultiSet implements IntMultiSet,Cloneable {
     private int[] array;
     private int current_position=0;//memorizzo la posizione dell utimo elemento inserito, così evito un ciclo
 
     public MultiSet(){
-        array = new int[2];//istanzio un array di base
+        array = new int[1];//istanzio un array di base
+    }
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
     }
 
     @Override
@@ -70,6 +71,10 @@ public class MultiSet implements IntMultiSet {
             trovato= remove(elem);
         }
         return trovato;
+    }
+
+    public int get(int index){
+        return array[index];
     }
 
     @Override
