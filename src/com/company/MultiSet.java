@@ -37,6 +37,7 @@ public class MultiSet implements IntMultiSet,Cloneable {
         for (int i = 0; i < a.length; i++) {
             array[i] = a[i];//ciclo e rimetto tutti gli elementi persi dentro l array originale
         }
+        //Al posto del ciclo è possibile usare anche array=a.clone();
     }
 
     @Override
