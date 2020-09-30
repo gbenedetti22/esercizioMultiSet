@@ -1,85 +1,120 @@
 package com.company;
 
-public class MultiSet implements IntMultiSet,Cloneable {
-    private int[] array;
-    private int current_position=0;//memorizzo la posizione dell utimo elemento inserito, così evito un ciclo
+import java.util.Arrays;
+
+public class MultiSet implements IntMultiSet {
+    private int[] set;
+    private int[] set_cardinality;
+    private int current_position=0;
+    private int size=0;
 
     public MultiSet(){
-        array = new int[1];//istanzio un array di base
-    }
-    public Object clone() throws CloneNotSupportedException{
-        return super.clone();
+        set = new int[1];
+        set_cardinality = new int[1];
     }
 
     @Override
     public int getCount(int elem) {
-        int conta=0;
-        for (int i = 0; i < array.length; i++) {
-            if(array[i]==elem)
-                conta++;
-        }
-        return conta;
+        int result=getIndexOf(elem);
+        return set_cardinality[result];
     }
-//parto ad aggiungere dall indice 0, e mano a mano incremento. Quando ho raggiunto il limite dell array, lo espando e ritento
+
     @Override
     public void add(int elem) {
-        try {
-            array[current_position]=elem;
-            current_position++;
-        }catch (ArrayIndexOutOfBoundsException e){
-            expandArray(array);
-            add(elem);
+        size++;
+        int result=getIndexOf(elem);
+        if (result >= 0){
+            set_cardinality[result]++;
+            return;
+        }
+
+        boolean inserito=false;
+        while (!inserito) {
+            try {
+                set[current_position] = elem;
+                set_cardinality[current_position]++;
+                current_position++;
+                inserito= true;
+            } catch (ArrayIndexOutOfBoundsException e) {
+                set = expandArray(set);
+                set_cardinality = expandArray(set_cardinality);
+            }
         }
     }
 
-    private void expandArray(int[] a){
-        array= new int[array.length+1];//ricreo l array ma con una dimensione più grande (così facendo perdo tutti gli elementi)
-        for (int i = 0; i < a.length; i++) {
-            array[i] = a[i];//ciclo e rimetto tutti gli elementi persi dentro l array originale
-        }
-        //Al posto del ciclo è possibile usare anche array=a.clone();
+    private static int[] expandArray(int[] array){
+        int[] new_array= new int[array.length+1];
+
+        System.arraycopy(array, 0, new_array, 0, array.length);
+
+        return new_array;
     }
 
     @Override
     public void add(int elem, int n) {
-        for (int i = 0; i < n; i++) {
+        int result=getIndexOf(elem);
+        if(result >= 0){
+            set_cardinality[result] += n;
+            size += n;
+        }else {
             add(elem);
         }
     }
 
     @Override
     public boolean remove(int elem) {
-        int[] temp= new int[array.length-1];//creo un array di dim -1 perchè sto togliendo un elemento
+        int[] set_temp= new int[set.length-1];
+        int[] setc_temp= new int[set_cardinality.length-1];
         boolean trovato=false;
         int j=0;
 
-        for (int i = 0; i < array.length; i++) {
-            if(array[i]!=elem || trovato){//butta dentro finchè non trovo l elemento
-                temp[j] = array[i];
+        for (int i = 0; i < set.length; i++) {
+            if(set[i]!=elem){
+                set_temp[j] = set[i];
+                setc_temp[j]= set_cardinality[j];
                 j++;
             }else {
-                trovato=true;//quando trovo l elemento, questo lo salto e non incremento j
+                size--;
+                trovato=true;
             }
         }
-        array=temp;
+        set = set_temp;
+        set_cardinality=setc_temp;
         return trovato;
     }
 
     @Override
     public boolean remove(int elem, int n) {
-        boolean trovato = false;
-        for (int i = 0; i < n; i++) {
-            trovato= remove(elem);
+        int result = getIndexOf(elem);
+        boolean trovato=false;
+        if(result > 0){
+            trovato=true;
+            if(set_cardinality[result] > n){
+                set_cardinality[result] -= n;
+                size -= n;
+            }else {
+                remove(elem);
+            }
         }
-        return trovato;
-    }
 
-    public int get(int index){
-        return array[index];
+        return trovato;
     }
 
     @Override
     public int size() {
-        return array.length;
+        return size;
     }
+    private int getIndexOf(int elem){
+        for (int i = 0; i < set.length; i++) {
+            if(set[i]==elem)
+                return i;
+        }
+        return -1;
+    }
+
+    public void printSet(){
+        System.out.println(Arrays.toString(set));
+        System.out.println(Arrays.toString(set_cardinality));
+    }
+
 }

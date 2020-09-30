@@ -5,33 +5,20 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-	    MultiSet a = new MultiSet();
-	    MultiSet b = new MultiSet();
-        int[] input_a= {1,2,3};
-        int[] input_b= {2,3,6,7};
+        MultiSet a = new MultiSet();
+        int[] input_a = new int[]{1, 5, 3, 7, 5, 8, 8, 8};
 
-        for (int i = 0; i < input_a.length; i++) {
-            a.add(input_a[i]);
-        }
-        for (int i = 0; i < input_b.length; i++) {
-            b.add(input_b[i]);
+        for (int j : input_a) {
+            a.add(j);
         }
 
-        MultiSet unione=a.unito(b);
-        MultiSet intersezione=a.intersecato(b);
-
-        System.out.print("Unione: ");
-        printSet(unione);
-
-        System.out.print("Intersezione: ");
-        printSet(intersezione);
-
-    }
-
-    private static void printSet(MultiSet a){
-        for (int i = 0; i < a.size(); i++) {
-            System.out.print(a.get(i));
-        }
         System.out.println();
+        a.remove(8, 2);
+
+        a.add(3, 3);
+        a.add(21, 2);
+        System.out.println(a.size());
     }
+
+
 }

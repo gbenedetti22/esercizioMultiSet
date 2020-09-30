@@ -29,33 +29,32 @@ public interface IntMultiSet
      * Restuisce il numero degli elementi del multi-insieme.
      **/
     int size();
-    int get(int index);
-    Object clone() throws CloneNotSupportedException;
 
     //Unione e intersezione
-    default MultiSet unito(MultiSet set) {
-        MultiSet temp = new MultiSet();
-        try {
-            temp = (MultiSet) this.clone();
-        }catch (CloneNotSupportedException e){
-            e.printStackTrace();
-        }
-        for (int i = 0; i < set.size(); i++) {
-            temp.add(set.get(i));
-        }
-        return temp;
-    }
-    default MultiSet intersecato(MultiSet set){
-        MultiSet temp = new MultiSet();
-        for (int i = 0; i < size(); i++) {
-            for (int j = 0; j < set.size(); j++) {
-                if(get(i) == set.get(j)){
-                    temp.add(set.get(j));
-                }
-            }
-        }
 
-        return temp;
-    }
+//    default MultiSet unito(MultiSet set) {
+//        MultiSet temp = new MultiSet();
+//        try {
+//            temp = (MultiSet) this.clone();
+//        }catch (CloneNotSupportedException e){
+//            e.printStackTrace();
+//        }
+//        for (int i = 0; i < set.size(); i++) {
+//            temp.add(set.get(i));
+//        }
+//        return temp;
+//    }
+//    default MultiSet intersecato(MultiSet set){
+//        MultiSet temp = new MultiSet();
+//        for (int i = 0; i < size(); i++) {
+//            for (int j = 0; j < set.size(); j++) {
+//                if(get(i) == set.get(j)){
+//                    temp.add(set.get(j));
+//                }
+//            }
+//        }
+//
+//        return temp;
+//    }
 
 }
