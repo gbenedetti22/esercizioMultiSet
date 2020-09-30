@@ -112,9 +112,4 @@ public class MultiSet implements IntMultiSet {
         return -1;
     }
 
-    public void printSet(){
-        System.out.println(Arrays.toString(set));
-        System.out.println(Arrays.toString(set_cardinality));
-    }
-
 }
